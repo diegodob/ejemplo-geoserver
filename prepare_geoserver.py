@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+
+from geoserver.catalog import Catalog
+import sys
+import geoserver.util
+
+if len(sys.argv) != 3:
+  print("Modo de uso: prepare_geoserver.py GEOSERVER_URL  GEOSERVER_USER GEOSERVER_PASSWORD")
+  sys.exit(10001)
+
+geoserverURL = sys.argv[1]  
+geoserverUser = sys.argv[2]  
+geoserverPassword = sys.argv[3]  
+
+
+cat = Catalog(geoserverUrl + "/rest",username=geoserverUser, password=geoserverPassword)
+
+workspace_3df = cat.create_workspace("3df", "http://www.tresdefebrero.gov.ar")
+
+shape_dir = "/Users/diegopablodobniewski/.bitnami/stackman/machines/xampp/volumes/root/htdocs/argenmap/data/3df_limites"
+shapefile_plus_sidecars = geoserver.util.shapefile_and_friends(shape_dir)
+cat.create_featurestore("3df_limites", shapefile_plus_sidecars, workspace_3df)
+
