@@ -16,3 +16,15 @@ services:
     command: >
       bash -c "/opt/prepare_geoserver/wait_geoserver.sh $$GEOSERVER_URL &&
       python /opt/prepare_geoserver/prepare_geoserver.py $$GEOSERVER_URL $$GEOSERVER_USER $$GEOSERVER_PASSWORD"
+  visualizador:
+    image: httpd:2.4
+    ports:
+     - '8888:80'    
+    env_file:
+      - visualizador.env
+    command: >
+      bash -c "echo ""El visualizador será descargado del siguiente repositorio GIT: $$GIT_REPO_URL"" && apt-get update &&
+      apt-get install git -y && 
+      rm -r /usr/local/apache2/htdocs/ && 
+      git clone $$GIT_REPO_URL /usr/local/apache2/htdocs/ &&
+      httpd-foreground"
