@@ -17,6 +17,7 @@ DATA_GIT_REPOSITORY: Repositorio con los datos para descargar
 docker-compose up
 
 4)
-Se puede consultar el visualizador en http://localhost:8000 
+Se puede consultar el visualizador en http://localhost:8888.
+Puede encender y apagar las capas desde el menú lateral
 
 
