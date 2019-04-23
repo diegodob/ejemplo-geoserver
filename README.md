@@ -10,7 +10,9 @@ git clone https://github.com/diegodob/goblocal-incio
 2) Editar el goblocal-inicio.env según corresponda:
 
 GEOSERVER_USER: Usuario administrador
+
 GEOSERVER_PASSWORD: Clave del geoserver
+
 DATA_GIT_REPOSITORY: Repositorio con los datos para descargar
 
 3) Ejecutar el docker-compose
