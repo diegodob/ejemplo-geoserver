@@ -17,7 +17,16 @@ cat = Catalog(geoserverURL + "/rest",username=geoserverUser, password=geoserverP
 
 workspace_3df = cat.create_workspace("3df", "http://www.tresdefebrero.gov.ar")
 
-shape_dir = "/opt/goblocal-inicio/datos/3df_limites/3df_limites" 
-shapefile_plus_sidecars = geoserver.util.shapefile_and_friends(shape_dir)
-cat.create_featurestore("3df_limites", shapefile_plus_sidecars, workspace_3df)
+
+base_shape_dir = "/opt/goblocal-inicio/datos/" 
+
+# Capa de limites
+limites_shape_dir = base_shape_dir + "3df_limites/3df_limites"
+limites_shp_y_otros_archivos = geoserver.util.shapefile_and_friends(limites_shape_dir)
+cat.create_featurestore("3df_limites", limites_shp_y_otros_archivos, workspace_3df)
+
+# Capa de establecimientos educativos
+establecimientos_educativos_dir = base_shape_dir + "3df_establecimientos_educativos/3df_establecimientos_educativos"
+establecimientos_educativos_shp_y_otros_archivos = geoserver.util.shapefile_and_friends(establecimientos_educativos_dir)
+cat.create_featurestore("3df_establecimientos_educativos", establecimientos_educativos_shp_y_otros_archivos, workspace_3df)
 

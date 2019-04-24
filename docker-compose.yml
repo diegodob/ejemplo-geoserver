@@ -8,14 +8,15 @@ services:
 
 
   goblocal-inicio:
-    image: diegodob/goblocal-inicio:0.1
+    image: diegodob/goblocal-inicio:0.2
     depends_on:
       - goblocal-geoserver
     env_file:
       - goblocal-inicio.env
     command: >
-      bash -c "/opt/goblocal-inicio/wait-goblocal-geoserver.sh $$GEOSERVER_URL &&
-      python /opt/goblocal-inicio/goblocal-inicio.py $$GEOSERVER_URL $$GEOSERVER_USER $$GEOSERVER_PASSWORD"
+      bash -c "git clone https://github.com/diegodob/goblocal-datos-ejemplo /opt/goblocal-inicio/datos &&
+               /opt/goblocal-inicio/wait-goblocal-geoserver.sh $$GEOSERVER_URL &&
+               python /opt/goblocal-inicio/goblocal-inicio.py $$GEOSERVER_URL $$GEOSERVER_USER $$GEOSERVER_PASSWORD"
   goblocal-visualizador:
     image: httpd:2.4
     ports:

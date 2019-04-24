@@ -8,5 +8,4 @@ ADD ./wait-goblocal-geoserver.sh /opt/goblocal-inicio/
 RUN apt-get update && \
     apt-get install git -y && \
     apt-get install python-pip -y && \
-    pip install gsconfig  && \
-    git clone https://github.com/diegodob/goblocal-datos-ejemplo /opt/goblocal-inicio/datos
+    pip install gsconfig  
