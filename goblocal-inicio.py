@@ -19,8 +19,7 @@ base_shape_dir = "/opt/goblocal-inicio/datos/"
 cat = Catalog(geoserverURL + "/rest",username=geoserverUser, password=geoserverPassword)
 
 unaGSReceta = GSReceta(cat)
-#unaGSReceta.ejecutar("json/ejemplo.json")
-unaGSReceta.ejecutar("../goblocal-datos-ejemplo/comandos.json")
+unaGSReceta.ejecutar("/opt/goblocal-inicio/datos/comandos.json")
 
 
 ## Capa de limites

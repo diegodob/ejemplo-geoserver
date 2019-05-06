@@ -14,7 +14,7 @@ services:
     env_file:
       - goblocal-inicio.env
     command: >
-      bash -c "&& echo "Los datos serán descargados del siguiente repositorio GIT: $$GIT_REPOSITORIO_DATOS_URL"
+      bash -c "echo \"Los datos serán descargados del siguiente repositorio GIT: $$GIT_REPOSITORIO_DATOS_URL\"
                git clone $$GIT_REPOSITORIO_DATOS_URL /opt/goblocal-inicio/datos &&
                /opt/goblocal-inicio/wait-goblocal-geoserver.sh $$GEOSERVER_URL &&
                python /opt/goblocal-inicio/goblocal-inicio.py $$GEOSERVER_URL $$GEOSERVER_USER $$GEOSERVER_PASSWORD"
