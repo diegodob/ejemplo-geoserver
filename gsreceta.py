@@ -22,6 +22,7 @@ class GSReceta:
  
     JSON_ENUM_ENTIDAD_WORKSPACE = "workspace"
     JSON_ENUM_ENTIDAD_STORE = "store"
+    JSON_ENUM_ENTIDAD_STYLE = "style"
 
     JSON_ENUM_ACCION_ALTA = "alta"
 
@@ -32,6 +33,9 @@ class GSReceta:
     JSON_STORE_TIPO = "tipo"
     JSON_STORE_WORKSPACE = "workspace"
     JSON_STORE_PATH = "path"
+
+    JSON_STYLE_NOMBRE = "nombre"
+    JSON_STYLE_PATH = "path"
 
     JSON_ENUM_STORE_TIPO_SHAPE = "shape"
 
@@ -97,6 +101,8 @@ class GSReceta:
             self.__ejecutarComandoWorkspace(unComando)
         elif unaEntidad == self.JSON_ENUM_ENTIDAD_STORE:
             self.__ejecutarComandoStore(unComando)
+        elif unaEntidad == self.JSON_ENUM_ENTIDAD_STYLE:
+            self.__ejecutarComandoStyle(unComando)
 
         else:
             raise Exception("Entidad desconocida: " + unaEntidad)
@@ -179,5 +185,27 @@ class GSReceta:
                 raise Exception("El '" + unaAccion + "' de la entidad '" + unaEntidad + "' requiere que el atributo '" + unaAtributo + "' no este vacio")
 
 
+    def __ejecutarComandoStyle(self, unComando):
+        """Ejecuta un comando referido a un style (o estilo). Valida que la acción del comando sea valido y que 
+        los parametros sean los indicados.
+
+        Attributes
+        ----------
+        unComando : array
+            Comando para ejecutar en parseado del JSON
+        """ 
+        unaAccion = unComando[self.JSON_COMANDO_CAMPO_ACCION]
+        if unaAccion == self.JSON_ENUM_ACCION_ALTA:
+            unNombre = unComando[self.JSON_STYLE_NOMBRE]
+            unPath = unComando[self.JSON_STYLE_PATH]
+            self.__validar_atributo_no_vacio('workspace', 'alta', 'nombre', unNombre)
+            self.__validar_atributo_no_vacio('workspace', 'alta', 'path', unPath)
+            unPathAbsoluto = os.path.join(self.directorioDeTrabajo, unPath)
+            with open(unPathAbsoluto) as unArchivo:
+                self.catalogo.create_style(unNombre, unArchivo.read())
+            
+
+        else:
+            raise Exception("Acción desconocida o no soportada aún: " + unaAccion)
 
 
