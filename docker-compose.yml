@@ -2,9 +2,15 @@ version: '3.4'
 
 services:
   goblocal-geoserver:
-    image: oscarfonts/geoserver:2.15.0
+    image: oscarfonts/geoserver:2.15.1
     ports:
      - '8080:8080'    
+    command: >
+      bash -c "cd /usr/local/geoserver/WEB-INF/lib &&
+              wget https://razaoinfo.dl.sourceforge.net/project/geoserver/GeoServer/2.15.1/extensions/geoserver-2.15.1-vectortiles-plugin.zip &&
+              unzip -o geoserver-2.15.1-vectortiles-plugin.zip &&
+              rm geoserver-2.15.1-vectortiles-plugin.zip &&
+              start.sh"
 
 
   goblocal-inicio:
