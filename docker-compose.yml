@@ -14,7 +14,7 @@ services:
 
 
   goblocal-inicio:
-    image: diegodob/goblocal-inicio:0.3
+    image: diegodob/goblocal-inicio:0.4
     depends_on:
       - goblocal-geoserver
     env_file:

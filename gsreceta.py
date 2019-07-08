@@ -33,6 +33,8 @@ class GSReceta:
     JSON_STORE_TIPO = "tipo"
     JSON_STORE_WORKSPACE = "workspace"
     JSON_STORE_PATH = "path"
+    JSON_STORE_ESTILO_POR_DEFECTO = "estilo_por_defecto"
+
 
     JSON_STYLE_NOMBRE = "nombre"
     JSON_STYLE_PATH = "path"
@@ -142,6 +144,7 @@ class GSReceta:
             unNombre = unComando[self.JSON_STORE_NOMBRE]
             unTipo = unComando[self.JSON_STORE_TIPO]
             unWorkspace = unComando[self.JSON_STORE_WORKSPACE]
+
             self.__validar_atributo_no_vacio('workspace', 'alta', 'nombre', unNombre)
             self.__validar_atributo_no_vacio('workspace', 'alta', 'tipo', unTipo)
             self.__validar_atributo_no_vacio('workspace', 'alta', 'workspace', unWorkspace)
@@ -152,8 +155,34 @@ class GSReceta:
             else:
                 raise Exception("Tipo de store desconocida o no soportada aun: " + unTipo)
 
+            # Si se establecio el atributo opcional de estilo por defecto
+            if self.JSON_STORE_ESTILO_POR_DEFECTO in unComando:
+                unEstiloPorDefecto = unComando[self.JSON_STORE_ESTILO_POR_DEFECTO]
+                self.__ejecutarCommandoStoreEstiloPorDefecto(unComando, unWorkspace, unNombre, unEstiloPorDefecto)
+
         else:
             raise Exception("Acción desconocida o no soportada aún: " + unaAccion)
+
+    def __ejecutarCommandoStoreEstiloPorDefecto(self, unComando, unWorkspace, unaCapa, unEstiloPorDefecto):
+        """Ejecuta un comando para asignar un estilo por defecto a una capa.
+
+        Attributes
+        ----------
+        unComando : array
+            Comando para ejecutar en parseado del JSON
+        unWorkspace : string
+            Nombre del espacio de trabajo
+        unNombre : string
+            Nombre de la capa
+        unEstiloPorDefecto : string
+            Nombre del estilo. El mismo debe existir previamente
+        """        
+        unObjetoEstilo = self.catalogo.get_style(unEstiloPorDefecto)
+        print(unObjetoEstilo)
+        unObjetoCapa = self.catalogo.get_layer(unWorkspace + ":" + unaCapa)
+        print(unObjetoCapa)
+        unObjetoCapa.default_style = unObjetoEstilo
+        self.catalogo.save(unObjetoCapa)
 
     def __ejecutarComandoStoreShape(self, unComando, unWorkspace, unNombre):
         """Ejecuta un comando referido a un stora shape. Valida que el path del comando sea valido.
