@@ -25,7 +25,7 @@ services:
                /opt/goblocal-inicio/wait-goblocal-geoserver.sh $$GEOSERVER_URL &&
                python /opt/goblocal-inicio/goblocal-inicio.py $$GEOSERVER_URL $$GEOSERVER_USER $$GEOSERVER_PASSWORD"
   goblocal-visualizador:
-    image: httpd:2.4
+    image: php:7.3-apache-stretch
     ports:
      - '8888:80'    
     env_file:
@@ -33,7 +33,6 @@ services:
     command: >
       bash -c "echo ""El visualizador será descargado del siguiente repositorio GIT: $$GIT_REPOSITORIO_URL"" && apt-get update &&
       apt-get install git -y && 
-      rm -r /usr/local/apache2/htdocs/ && 
-      git clone $$GIT_REPOSITORIO_VISUALIZADOR_URL /usr/local/apache2/htdocs/ &&
-      sed -i "s,http://localhost:8080/,$$GOBLOCAL_GEOSERVER_URL_EXTERNA,g" /usr/local/apache2/htdocs/js/menu.json &&
-      httpd-foreground"
+      git clone $$GIT_REPOSITORIO_VISUALIZADOR_URL /var/www/html &&
+      sed -i "s,http://localhost:8080/,$$GOBLOCAL_GEOSERVER_URL_EXTERNA,g" /var/www/html/js/menu.json &&
+      apache2-foreground"
